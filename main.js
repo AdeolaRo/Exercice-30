@@ -10,6 +10,9 @@ class Student {
     }
 }
 
+let newStudent = new Student("CHITOU", "Abdel");
+newStudent.creerStudent();
+
 class StudentNote {
     constructor(student, subject, note) {
         this.student = student;
@@ -88,20 +91,47 @@ document.getElementById('btnajoutnote').addEventListener('click', () => {
     const subject = document.getElementById('grade-field').value;
     const gradeValue = document.getElementById('grade').value;
 
-    const student = students.find(s => s.creerStudent() === studentName);
+    const student = students.find(student => student.creerStudent() === studentName);
     if (student && subject && gradeValue) {
         const grade = new StudentNote(student, subject, gradeValue);
         grades.push(grade);
-        updateGradeTable();
-        calculateAverageGrade();
         resetForm('add-grade-form');
     }
 });
 
-function updateGradeTable() {
-    const tableBody = document.getElementById('table-data');
+
+function calculateAverageGrade() {
+    const studentName = document.getElementById('student-choice').value;
+    const subject = document.getElementById('lessonfield-choice').value;
+    let filteredGrades;
+
+    if (studentName !== "Choisir un élève" && subject !== "Choisir une matière") {
+     
+        filteredGrades = grades.filter(g => g.student.creerStudent() === studentName && g.subject === subject);
+    } else if (studentName !== "Choisir un élève") {
+    
+        filteredGrades = grades.filter(g => g.student.creerStudent() === studentName);
+    } else if (subject !== "Choisir une matière") {
+    
+        filteredGrades = grades.filter(g => g.subject === subject);
+    } else {
+             filteredGrades = grades;
+    }
+
+    if (filteredGrades.length > 0) {
+        const total = filteredGrades.reduce((acc, curr) => acc + curr.note, 0);
+        const average = total / filteredGrades.length;
+        document.getElementById('average-grade').innerHTML = `Moyenne: ${average.toFixed(2)}`;
+    } else {
+        document.getElementById('average-grade').innerHTML = '';
+    }
+}
+
+function updateGradeTable(filteredGrades = grades) {
+    const tableBody = document.getElementById('table-data-body');
     tableBody.innerHTML = ''; 
-    grades.forEach(grade => {
+
+    filteredGrades.forEach(grade => {
         const row = document.createElement('tr');
         row.innerHTML = `<td>${grade.student.nom}</td>
                          <td>${grade.student.prenom}</td>
@@ -109,13 +139,22 @@ function updateGradeTable() {
                          <td>${grade.note}</td>`;
         tableBody.appendChild(row);
     });
+
+ 
+    if (filteredGrades.length > 0) {
+        document.getElementById('table-data').classList.remove('hidden');
+    } else {
+        document.getElementById('table-data').classList.add('hidden');
+    }
 }
+
+
+document.getElementById('student-choice').addEventListener('change', calculateAverageGrade);
+document.getElementById('lessonfield-choice').addEventListener('change', calculateAverageGrade);
 
 
 function resetForm(formId) {
     document.getElementById(formId).querySelectorAll('input, select').forEach(input => input.value = '');
-    if (formId === 'add-grade-form') {
-        document.getElementById('grade-student').selectedIndex = 0;
-        document.getElementById('grade-field').selectedIndex = 0;
-    }
+   
 }
+

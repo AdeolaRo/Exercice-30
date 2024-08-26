@@ -85,6 +85,7 @@
                                     </div>
                                     <div class="col">
                                         <select type="text" class="form-select" name="grade-student" id="grade-student">
+                                            <option selected="selected">Elèves</option>
                                         </select>
                                     </div>
                                 </div>
@@ -102,6 +103,7 @@
                                     </div>
                                     <div class="col">
                                         <select type="text" class="form-select" name="grade-field" id="grade-field">
+                                            <option selected="selected">Matières</option>
                                         </select>
                                     </div>
                                 </div>
@@ -121,7 +123,7 @@
                             </div>
                             <div class="col">
                                 <select name="student-choice" id="student-choice" class="form-select">
-                                   <option selected="selected">Choisir un élève</option> 
+                                   <option selected="selected">Tous les élèves</option> 
                                 </select>
                                 
                             </div>
@@ -133,7 +135,7 @@
                             </div>
                             <div class="col">
                                 <select name="lessonfield-choice" id="lessonfield-choice" class="form-select">
-                                  <option selected="selected">Choisir une matière</option>  
+                                  <option selected="selected">Toutes les matières</option>  
                                 </select>
                                 
                             </div>
@@ -143,19 +145,19 @@
                     </div>
                     <h6 class="display-6 mt-5">Notes</h6>
                     <hr>
-                    <table class="table table-dark table-stiped text-center">
+
+                    <table class="table table-dark table-striped text-center" id="table-data">
                         <thead>
                             <tr>
                                 <th>Nom</th>
-                                <th>Prenom</th>
+                                <th>Prénom</th>
                                 <th>Matière</th>
                                 <th>Note</th>
                             </tr>
                         </thead>
-                        <tbody id="table-data">
-
+                        <tbody class="hidden" id="table-data-body">
                         </tbody>
-                    </table>
+                    </table>                
                 </div>
             </div>
         </div>
